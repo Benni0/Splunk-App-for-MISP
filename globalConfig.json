@@ -818,7 +818,7 @@
     "meta": {
         "name": "TA_misp",
         "restRoot": "TA_misp",
-        "version": "0.0.0Ra14ffb3",
+        "version": "1.0.2R484c416",
         "displayName": "Benni0 App for MISP",
         "schemaVersion": "0.0.8",
         "_uccVersion": "5.49.0"

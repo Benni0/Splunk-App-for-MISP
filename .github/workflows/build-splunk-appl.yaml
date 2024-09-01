@@ -1,0 +1,33 @@
+name: build-splunk-app
+
+on: 
+  push:
+    tags:
+      - v1.**
+
+jobs:
+  build-splunk-app-ucc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+          cache: 'pip'
+      - run: pip install splunk-add-on-ucc-framework splunk-packaging-toolkit
+      - run: ucc-gen build
+      - run: slim package output/TA_misp
+      - run: sudo apt-get install -y jq
+      - name: version
+        run: cat package/app.manifest | jq '.info.id.version'
+        id: version
+
+      - name: release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: TA_misp-*.tar.gz
+          bodyFile: CHANGELOG.md
+          commit: "main"
+          allowUpdates: true
+          name: Benni0 App for MISP ${{ github.ref }}
+          generateReleaseNotes: true

@@ -105,7 +105,11 @@ def ingest_attributes(
         if empty_page_count > 4: # safeguard when bug fixed
             break
 
-        if 'X-Result-Count' in result['headers']:
+        if 'X-Skipped-Elements-Count' in result['headers']:
+            # if MISP support X-Skipped-Elements-Count this is the exact abort condition
+            if len(attributes) + int(result['headers']['X-Skipped-Elements-Count']) < request_limit:
+                break
+        elif 'X-Result-Count' in result['headers']:
             x_result_count = int(result['headers']['X-Result-Count'])
         elif 'x-result-count' in result['headers']:
             x_result_count = int(result['headers']['x-result-count'])

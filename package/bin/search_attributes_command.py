@@ -20,16 +20,16 @@ import math
 
 @Configuration(distributed=False)
 class SearchMISPAttributesCommand(GeneratingCommand):
-    """ %(synopsis)
+    """ Search for MISP attributes on a MISP instance using the MISP API.
 
     ##Syntax
-
-    %(syntax)
+    -- code-block::
+    | mispsearchattributes (misp_instance=<string>)? (limit=<int>)? (normalize_fields=(t|f))? (publish_date=<YYYY-MM-DD>)?
+    | mispsearchattributes (published=(t|f))? (include_context=(t|f))? (value=<string>)?
 
     ##Description
-
-    %(description)
-
+    Queries a list of MISP attributes and provides filter and data normaization features.
+    It is possible to filter tags, events, values, timestamps, to_ids etc. and to normalize the output using normalize_fields (enabled by default)
     """
 
     misp_instance = Option(

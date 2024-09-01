@@ -21,16 +21,14 @@ from misp_client import MISPHTTPClient
 
 @Configuration()
 class SearchMISPEventsCommand(GeneratingCommand):
-    """ %(synopsis)
+    """ Search for MISP events on a MISP instance using the MISP API.
 
     ##Syntax
-
-    %(syntax)
+    | mispsearchevents (misp_instance=<str>)? (ioc=<str>)?
 
     ##Description
-
-    %(description)
-
+    Searchs for all MISP events which include the given ioc value. 
+    You may specify the misp instance with "misp_instance" parameter, otherwiese the configured default_instance is used.
     """
 
     misp_instance = Option(
