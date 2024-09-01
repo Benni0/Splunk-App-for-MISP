@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<nav search_view="search" color="#2FA1DB">    
+    <view name="dashboard" default="true"/>
+    <collection label="Dashboards">
+        <view name="misp_ioc_dashboard" label="IOC Dashboard"/>
+        <view name="misp_ioc_search" label="IOC Search"/>
+        <view name="dashboards"/>
+    </collection>
+    <view name="reports"/>    
+    <view name="search"/>
+    <collection label="App Settings">
+        <view name="configuration"/>
+        <view name="inputs"/>
+    </collection>
+</nav>

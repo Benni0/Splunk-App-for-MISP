@@ -1,0 +1,57 @@
+{
+    "schemaVersion": "2.0.0",
+    "info": {
+        "title": "Benni0 App for MISP",
+        "id": {
+            "group": null,
+            "name": "TA_misp",
+            "version": "0.0.1"
+        },
+        "author": [
+            {
+                "name": "Benni0",
+                "email": "me@benji.at",
+                "company": null
+            }
+        ],
+        "releaseDate": "2024-08-26",
+        "description": "Benni0 App for MISP is an app which adds a splunk input for MISP events and attributes. Additionally reports which support the whole TI lifecycle in Splunk are included.",
+        "classification": {
+            "intendedAudience": "Threat Intelligence Professionals",
+            "categories": [
+                "Threat Intelligence"
+            ],
+            "developmentStatus": "Production/Stable"
+        },
+        "commonInformationModels": null,
+        "license": {
+            "name": null,
+            "text": "LICENSE.txt",
+            "uri": null
+        },
+        "privacyPolicy": {
+            "name": null,
+            "text": null,
+            "uri": null
+        },
+        "releaseNotes": {
+            "name": "README",
+            "text": "README.txt",
+            "uri": ""
+        }
+    },
+    "dependencies": null,
+    "tasks": null,
+    "inputGroups": null,
+    "incompatibleApps": null,
+    "platformRequirements": null,
+    "supportedDeployments": [
+        "_standalone",
+        "_distributed",
+        "_search_head_clustering"
+    ],
+    "targetWorkloads": [
+        "_search_heads",
+        "_indexers"
+    ]
+}

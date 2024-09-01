@@ -1,0 +1,826 @@
+{
+    "pages": {
+        "configuration": {
+            "tabs": [
+                {
+                    "title": "Accounts",
+                    "name": "account",
+                    "table": {
+                        "actions": [
+                            "edit",
+                            "delete",
+                            "clone"
+                        ],
+                        "header": [
+                            {
+                                "label": "Name",
+                                "field": "name"
+                            },
+                            {
+                                "label": "MISP Url",
+                                "field": "misp_url"
+                            }
+                        ]
+                    },
+                    "entity": [
+                        {
+                            "type": "text",
+                            "label": "Instance Name",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Account Name must begin with a letter and consist exclusively of alphanumeric characters and underscores.",
+                                    "pattern": "^[a-zA-Z]\\w*$"
+                                },
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of input name should be between 1 and 100",
+                                    "minLength": 1,
+                                    "maxLength": 100
+                                }
+                            ],
+                            "field": "name",
+                            "help": "A unique name for the account.",
+                            "required": true
+                        },
+                        {
+                            "type": "text",
+                            "label": "MISP Url",
+                            "field": "misp_url",
+                            "help": "Url of the MISP instance",
+                            "required": true,
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "MISP Url is not a valid Url",
+                                    "pattern": "https?://[0-9a-zA-Z-_/\\.]+"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "text",
+                            "label": "Auth Key",
+                            "field": "auth_key",
+                            "help": "MISP Authentication Key",
+                            "required": true,
+                            "encrypted": true,
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Auth Key includes characters which are not allowed",
+                                    "pattern": "[a-zA-Z0-9=]+"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "checkbox",
+                            "label": "TLS Verify",
+                            "field": "tls_verify",
+                            "help": "Verifiy if TLS certificate is valid.",
+                            "required": false,
+                            "defaultValue": true
+                        },
+                        {
+                            "type": "checkbox",
+                            "label": "Ignore Proxy",
+                            "field": "ignore_proxy",
+                            "help": "Ignore Proxy settings for this instance.",
+                            "required": false,
+                            "defaultValue": false
+                        },
+                        {
+                            "field": "request_event_limit",
+                            "label": "Limit (Events per Request)",
+                            "type": "text",
+                            "help": "Events are queried page by page. Limit of Events which should be fetched per request (default: 1k, max: 1M).",
+                            "validators": [
+                                {
+                                    "type": "number",
+                                    "range": [
+                                        1,
+                                        1000000
+                                    ]
+                                }
+                            ],
+                            "required": false,
+                            "defaultValue": 1000
+                        },
+                        {
+                            "field": "request_attribute_limit",
+                            "label": "Limit (Attributes per Request)",
+                            "type": "text",
+                            "help": "Attributes are queried page by page. Limit of Attributes which should be fetched per request (default: 1k, max: 1M)",
+                            "validators": [
+                                {
+                                    "type": "number",
+                                    "range": [
+                                        1,
+                                        1000000
+                                    ]
+                                }
+                            ],
+                            "required": false,
+                            "defaultValue": 1000
+                        }
+                    ]
+                },
+                {
+                    "name": "global_settings",
+                    "title": "MISP App Settings",
+                    "entity": [
+                        {
+                            "field": "default_instance",
+                            "label": "Default Instance",
+                            "type": "singleSelect",
+                            "options": {
+                                "referenceName": "account"
+                            },
+                            "required": false
+                        }
+                    ]
+                },
+                {
+                    "type": "loggingTab"
+                },
+                {
+                    "name": "proxy",
+                    "title": "Proxy",
+                    "entity": [
+                        {
+                            "type": "checkbox",
+                            "label": "Enable",
+                            "field": "proxy_enabled"
+                        },
+                        {
+                            "type": "singleSelect",
+                            "label": "Proxy Type",
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "value": "http",
+                                        "label": "http"
+                                    },
+                                    {
+                                        "value": "socks4",
+                                        "label": "socks4"
+                                    },
+                                    {
+                                        "value": "socks5",
+                                        "label": "socks5"
+                                    }
+                                ]
+                            },
+                            "defaultValue": "http",
+                            "field": "proxy_type"
+                        },
+                        {
+                            "type": "text",
+                            "label": "Host",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Max host length is 4096",
+                                    "minLength": 0,
+                                    "maxLength": 4096
+                                }
+                            ],
+                            "field": "proxy_url"
+                        },
+                        {
+                            "type": "text",
+                            "label": "Port",
+                            "validators": [
+                                {
+                                    "type": "number",
+                                    "range": [
+                                        1,
+                                        65535
+                                    ]
+                                }
+                            ],
+                            "field": "proxy_port"
+                        },
+                        {
+                            "type": "text",
+                            "label": "Username",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Max length of username is 50",
+                                    "minLength": 0,
+                                    "maxLength": 50
+                                }
+                            ],
+                            "field": "proxy_username"
+                        },
+                        {
+                            "type": "text",
+                            "label": "Password",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Max length of password is 8192",
+                                    "minLength": 0,
+                                    "maxLength": 8192
+                                }
+                            ],
+                            "encrypted": true,
+                            "field": "proxy_password"
+                        },
+                        {
+                            "type": "checkbox",
+                            "label": "Reverse DNS resolution",
+                            "field": "proxy_rdns"
+                        }
+                    ],
+                    "options": {
+                        "saveValidator": "function(formData) { if(!formData.proxy_enabled || formData.proxy_enabled === '0') {return true; } if(!formData.proxy_url) { return 'Proxy Host can not be empty'; } if(!formData.proxy_port) { return 'Proxy Port can not be empty'; } return true; }"
+                    }
+                }
+            ],
+            "title": "Configuration",
+            "description": "Set up your add-on"
+        },
+        "inputs": {
+            "title": "Inputs",
+            "services": [
+                {
+                    "name": "misp_indicator_input",
+                    "inputHelperModule": "misp_indicator_input_helper",
+                    "title": "MISP Indicator Input",
+                    "entity": [
+                        {
+                            "field": "misp_instance",
+                            "label": "MISP Instance",
+                            "type": "singleSelect",
+                            "help": "Name of the MISP Instance",
+                            "options": {
+                                "referenceName": "account"
+                            },
+                            "required": true
+                        },
+                        {
+                            "field": "name",
+                            "label": "Name",
+                            "type": "text",
+                            "help": "A unique name for the data input.",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Input Name must begin with a letter and consist exclusively of alphanumeric characters and underscores.",
+                                    "pattern": "^[a-zA-Z]\\w*$"
+                                },
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of input name should be between 1 and 100",
+                                    "minLength": 1,
+                                    "maxLength": 100
+                                }
+                            ],
+                            "required": true
+                        },
+                        {
+                            "field": "index",
+                            "label": "Index",
+                            "type": "singleSelect",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of index name should be between 1 to 80 characters.",
+                                    "minLength": 1,
+                                    "maxLength": 80
+                                }
+                            ],
+                            "defaultValue": "ioc",
+                            "options": {
+                                "endpointUrl": "data/indexes",
+                                "denyList": "^_.*$",
+                                "createSearchChoice": true
+                            },
+                            "required": true
+                        },
+                        {
+                            "field": "sourcetype",
+                            "label": "Sourcetype",
+                            "type": "text",
+                            "defaultValue": "misp:ti:attributes",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Sourcetype contains invalid characters",
+                                    "pattern": "^[a-zA-Z0-9_:]+$"
+                                }
+                            ],
+                            "required": true
+                        },
+                        {
+                            "field": "interval",
+                            "label": "Interval",
+                            "type": "interval",
+                            "help": "Time interval of the data input, in seconds.",
+                            "required": true,
+                            "defaultValue": "300"
+                        },
+                        {
+                            "field": "max_requests",
+                            "label": "Max Requests (Events per execution)",
+                            "type": "text",
+                            "help": "Must be a multiple of the depending request limit. Max amount of Events from which Attributes should be imported each import execution (max is 100k)",
+                            "validators": [
+                                {
+                                    "type": "number",
+                                    "range": [
+                                        1,
+                                        100000
+                                    ]
+                                }
+                            ],
+                            "required": false,
+                            "defaultValue": 1000
+                        },
+                        {
+                            "field": "import_period",
+                            "label": "Import Perod",
+                            "type": "text",
+                            "help": "Import period over which indicators should be imported in day(s), month(s) or year(s) (<int>d|h|m)",
+                            "required": false,
+                            "defaultValue": "180d",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Import Period must be in the following syntax: <int>d|h|m*",
+                                    "pattern": "^([0-9]+(d|m|y)|all)$"
+                                }
+                            ]
+                        },
+                        {
+                            "field": "types",
+                            "label": "Types",
+                            "type": "textarea",
+                            "help": "MISP type filter, e.g.: \"domain,domain|ip\".",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Type Filter syntax not valid",
+                                    "pattern": "^[a-zA-Z0-9,|\\-_]+$"
+                                }
+                            ],
+                            "required": false
+                        },
+                        {
+                            "field": "to_ids",
+                            "label": "To IDS",
+                            "type": "checkbox",
+                            "help": "If enabled, only attributes with to_ids=true are imported.",
+                            "required": false,
+                            "defaultValue": false
+                        },
+                        {
+                            "field": "published",
+                            "label": "Published",
+                            "type": "checkbox",
+                            "help": "Only ingest attributes which are published.",
+                            "required": false,
+                            "defaultValue": true
+                        },
+                        {
+                            "field": "include_tags",
+                            "label": "Include Tags",
+                            "type": "text",
+                            "help": "MISP tag include filter, e.g.: \"tlp:red,tlp:amber\"",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Tag Filter syntax not valid",
+                                    "pattern": "^[a-zA-Z0-9,|\\-:\\.]+$"
+                                }
+                            ],
+                            "required": false
+                        },
+                        {
+                            "field": "exclude_tags",
+                            "label": "Exclude Tags",
+                            "type": "text",
+                            "help": "MISP tag include filter, e.g.: \"tlp:white,tlp:amber\"",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Tag Filter syntax not valid",
+                                    "pattern": "^[a-zA-Z0-9,|\\-:\\.]+$"
+                                }
+                            ],
+                            "required": false
+                        },
+                        {
+                            "field": "warning_list",
+                            "label": "Enforce Warninglists",
+                            "type": "checkbox",
+                            "help": "Prevents ingestion of Attributes which are in a warninglist.",
+                            "required": false,
+                            "defaultValue": true
+                        },
+                        {
+                            "field": "continuous_importing",
+                            "label": "Continuous Importing",
+                            "type": "checkbox",
+                            "help": "Continuous Importing is the default mode, import continues from last imported event import timestamp, so only attributes from new or modified events are imported. Disabling continuous importing would result in importing all attributes during each execution which makes only sense if the amount of attributes is lower than the limits. Max Events is used as maximum amount of requests in this case.",
+                            "required": false,
+                            "defaultValue": true
+                        },
+                        {
+                            "field": "override_timestamps",
+                            "label": "Override Timestamps",
+                            "type": "checkbox",
+                            "help": "Force to use ingest time instead of attribute timestamp.",
+                            "required": false,
+                            "defaultValue": false
+                        },
+                        {
+                            "field": "normalize_field_names",
+                            "label": "Normalize Field Names",
+                            "type": "checkbox",
+                            "help": "Normalize attribute field names, each field name will begin with \"misp_*\" and the datastructure will be flatteneds.",
+                            "required": false,
+                            "defaultValue": true
+                        },
+                        {
+                            "field": "normalized_field_prefix",
+                            "label": "Prefix for normalized fields",
+                            "type": "text",
+                            "help": "Defines the prefix for normaized fields, which is \"misp_\" by default.",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Prefix for normalized fields containes invalid characters",
+                                    "pattern": "^[0-9a-zA-Z_\\-]+$"
+                                }
+                            ],
+                            "required": false,
+                            "defaultValue": "misp_"
+                        },
+                        {
+                            "field": "expand_tags",
+                            "label": "Expand Tags",
+                            "type": "checkbox",
+                            "help": "Expand each attributes tag to a single event to avoid mvexpand.",
+                            "required": false,
+                            "defaultValue": true
+                        }
+                    ],
+                    "description": "Manage your data inputs",
+                    "table": {
+                        "actions": [
+                            "edit",
+                            "enable",
+                            "delete",
+                            "clone"
+                        ],
+                        "header": [
+                            {
+                                "label": "Name",
+                                "field": "name"
+                            },
+                            {
+                                "label": "Interval",
+                                "field": "interval"
+                            },
+                            {
+                                "label": "Index",
+                                "field": "index"
+                            },
+                            {
+                                "label": "Status",
+                                "field": "disabled"
+                            }
+                        ],
+                        "moreInfo": [
+                            {
+                                "label": "Name",
+                                "field": "name"
+                            },
+                            {
+                                "label": "Interval",
+                                "field": "interval"
+                            },
+                            {
+                                "label": "Index",
+                                "field": "index"
+                            },
+                            {
+                                "label": "Status",
+                                "field": "disabled",
+                                "mapping": {
+                                    "true": "Disabled",
+                                    "false": "Enabled"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "title": "MISP Event Input",
+                    "inputHelperModule": "misp_event_input_helper",
+                    "name": "misp_event_input",
+                    "entity": [
+                        {
+                            "field": "misp_instance",
+                            "label": "MISP Instance",
+                            "type": "singleSelect",
+                            "help": "Name of the MISP Instance",
+                            "options": {
+                                "referenceName": "account"
+                            },
+                            "required": true
+                        },
+                        {
+                            "field": "name",
+                            "label": "Name",
+                            "type": "text",
+                            "help": "A unique name for the data input.",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Input Name must begin with a letter and consist exclusively of alphanumeric characters and underscores.",
+                                    "pattern": "^[a-zA-Z]\\w*$"
+                                },
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of input name should be between 1 and 100",
+                                    "minLength": 1,
+                                    "maxLength": 100
+                                }
+                            ],
+                            "required": true
+                        },
+                        {
+                            "field": "index",
+                            "label": "Index",
+                            "type": "singleSelect",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of index name should be between 1 to 80 characters.",
+                                    "minLength": 1,
+                                    "maxLength": 80
+                                }
+                            ],
+                            "defaultValue": "default",
+                            "options": {
+                                "endpointUrl": "data/indexes",
+                                "denyList": "^_.*$",
+                                "createSearchChoice": true
+                            },
+                            "required": true
+                        },
+                        {
+                            "field": "sourcetype",
+                            "label": "Sourcetype",
+                            "type": "text",
+                            "defaultValue": "misp:ti:events",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Sourcetype contains invalid characters",
+                                    "pattern": "^[a-zA-Z0-9_:]+$"
+                                }
+                            ],
+                            "required": true
+                        },
+                        {
+                            "field": "interval",
+                            "label": "Interval",
+                            "type": "interval",
+                            "help": "Time interval of the data input, in seconds.",
+                            "required": true,
+                            "defaultValue": "300"
+                        },
+                        {
+                            "field": "max_requests",
+                            "label": "Max Requests (Events per execution)",
+                            "type": "text",
+                            "help": "Must be a multiple of the depending request limit. Max amount of Events from which events should be imported each import execution (max is 100k)",
+                            "validators": [
+                                {
+                                    "type": "number",
+                                    "range": [
+                                        1,
+                                        100000
+                                    ]
+                                }
+                            ],
+                            "required": false,
+                            "defaultValue": 1000
+                        },
+                        {
+                            "field": "import_period",
+                            "label": "Import Perod",
+                            "type": "text",
+                            "help": "Import period over which indicators should be imported in day(s), month(s) or year(s) (<int>d|h|m)",
+                            "required": false,
+                            "defaultValue": "180d",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Import Period must be in the following syntax: <int>d|h|m*",
+                                    "pattern": "^([0-9]+(d|m|y)|all)$"
+                                }
+                            ]
+                        },
+                        {
+                            "field": "published",
+                            "label": "Published",
+                            "type": "checkbox",
+                            "help": "Only ingest events which are published.",
+                            "required": false,
+                            "defaultValue": true
+                        },
+                        {
+                            "field": "continuous_importing",
+                            "label": "Continuous Importing",
+                            "type": "checkbox",
+                            "help": "Continuous Importing is the default mode, import continues from last imported event import timestamp, so only new or modified events are imported. Disabling continuous importing would result in importing all events during each execution which makes only sense if the amount of events is lower than the limits. Max Events is used as maximum amount of requests in this case.",
+                            "required": false,
+                            "defaultValue": true
+                        },
+                        {
+                            "field": "override_timestamps",
+                            "label": "Override Timestamps",
+                            "type": "checkbox",
+                            "help": "Force to use ingest time instead of event timestamp.",
+                            "required": false,
+                            "defaultValue": false
+                        },
+                        {
+                            "field": "normalize_field_names",
+                            "label": "Normalize Field Names",
+                            "type": "checkbox",
+                            "help": "Normalize event field names, each field name will begin with \"misp_*\" and the datastructure will be flatteneds.",
+                            "required": false,
+                            "defaultValue": true
+                        },
+                        {
+                            "field": "normalized_field_prefix",
+                            "label": "Prefix for normalized fields",
+                            "type": "text",
+                            "help": "Defines the prefix for normaized fields, which is \"misp_\" by default.s",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Prefix for normalized fields containes invalid characters",
+                                    "pattern": "^[0-9a-zA-Z_\\-]+$"
+                                }
+                            ],
+                            "required": false,
+                            "defaultValue": "misp_"
+                        },
+                        {
+                            "field": "expand_tags",
+                            "label": "Expand Tags",
+                            "type": "checkbox",
+                            "help": "Expand each misp event tag to a single event to avoid mvexpand.",
+                            "required": false,
+                            "defaultValue": true
+                        }
+                    ],
+                    "description": "Manage your data inputs",
+                    "table": {
+                        "actions": [
+                            "edit",
+                            "enable",
+                            "delete",
+                            "clone"
+                        ],
+                        "header": [
+                            {
+                                "label": "Name",
+                                "field": "name"
+                            },
+                            {
+                                "label": "Interval",
+                                "field": "interval"
+                            },
+                            {
+                                "label": "Index",
+                                "field": "index"
+                            },
+                            {
+                                "label": "Status",
+                                "field": "disabled"
+                            }
+                        ],
+                        "moreInfo": [
+                            {
+                                "label": "Name",
+                                "field": "name"
+                            },
+                            {
+                                "label": "Interval",
+                                "field": "interval"
+                            },
+                            {
+                                "label": "Index",
+                                "field": "index"
+                            },
+                            {
+                                "label": "Status",
+                                "field": "disabled",
+                                "mapping": {
+                                    "true": "Disabled",
+                                    "false": "Enabled"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "dashboard": {
+            "panels": [
+                {
+                    "name": "default"
+                }
+            ]
+        }
+    },
+    "alerts": [
+        {
+            "name": "add_sighting",
+            "label": "Add Sighting",
+            "description": "Add sightting to MISP Attribute",
+            "adaptiveResponse": {
+                "task": [
+                    "Create"
+                ],
+                "supportsAdhoc": true,
+                "subject": [
+                    "endpoint"
+                ],
+                "category": [
+                    "Inform",
+                    "Communcation"
+                ],
+                "technology": [
+                    {
+                        "product": "MISP",
+                        "vendor": "MISP",
+                        "version": [
+                            "1.4.0"
+                        ]
+                    }
+                ],
+                "supportsCloud": true
+            },
+            "entity": [
+                {
+                    "field": "misp_instance",
+                    "label": "MISP Instance",
+                    "help": "Name of the MISP Instance",
+                    "type": "singleSelectSplunkSearch",
+                    "search": "| rest /services/configs/conf-ta_misp_account | dedup title",
+                    "valueField": "title",
+                    "labelField": "title",
+                    "required": false
+                },
+                {
+                    "field": "ioc",
+                    "label": "IOC",
+                    "type": "text",
+                    "required": true,
+                    "help": "The IOC Value where the sighting should be recorded"
+                },
+                {
+                    "field": "sighting_type",
+                    "label": "Sighting Type",
+                    "type": "singleSelect",
+                    "options": {
+                        "items": [
+                            {
+                                "value": 0,
+                                "label": "True Positive"
+                            },
+                            {
+                                "value": 1,
+                                "label": "False Positive"
+                            },
+                            {
+                                "value": 2,
+                                "label": "Expiration"
+                            }
+                        ]
+                    },
+                    "required": false,
+                    "defaultValue": 0
+                }
+            ]
+        }
+    ],
+    "meta": {
+        "name": "TA_misp",
+        "restRoot": "TA_misp",
+        "version": "0.0.0Ra14ffb3",
+        "displayName": "Benni0 App for MISP",
+        "schemaVersion": "0.0.8",
+        "_uccVersion": "5.49.0"
+    }
+}

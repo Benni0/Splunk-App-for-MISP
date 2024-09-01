@@ -1,0 +1,164 @@
+
+<dashboard version="2" theme="dark">
+    <label>MISP Indicator Search</label>
+    <description>You can use this dashboard to search for indicators</description>
+    <definition><![CDATA[
+{
+        "dataSources": {
+                "ds_IYgxLrWv": {
+                        "type": "ds.search",
+                        "options": {
+                                "query": "| mispsearchattributes misp_instance=$dd_misp_instance$ value=$text_indicator$ normalize_fields=f",
+                                "queryParameters": {
+                                        "earliest": "-24h@h",
+                                        "latest": "now"
+                                }
+                        },
+                        "name": "Events 1 search"
+                },
+                "ds_kNVB6FEt": {
+                        "type": "ds.chain",
+                        "options": {
+                                "query": "| fieldsummary maxvals=10",
+                                "extend": "ds_IYgxLrWv"
+                        },
+                        "name": "Events 2 search"
+                },
+                "ds_UoMnhEt7": {
+                        "type": "ds.search",
+                        "options": {
+                                "query": "index=ioc sourcetype=\"misp:ti:attributes\" $text_indicator$\n| eval misp_timestamp=strftime(misp_timestamp,\"%x %r\")\n| stats values(misp_timestamp) as Timestamp values(misp_event_id) as \"Event Id\" values(misp_event_info) as \"Event Info\" values(misp_category) as Category values(misp_orgc_id) as \"Org Id\" values(misp_tag) as \"Tags\" values(misp_value) as Indicator by misp_event_id",
+                                "queryParameters": {
+                                        "earliest": "0",
+                                        "latest": ""
+                                }
+                        },
+                        "name": "Index Search search"
+                },
+                "ds_TRmOksRs": {
+                        "type": "ds.search",
+                        "options": {
+                                "query": "| rest /services/configs/conf-ta_misp_account | dedup title | table title",
+                                "queryParameters": {
+                                        "earliest": "-24h@h",
+                                        "latest": "now"
+                                }
+                        },
+                        "name": "Search_1"
+                }
+        },
+        "visualizations": {
+                "viz_cqouBrEw": {
+                        "type": "splunk.events",
+                        "dataSources": {
+                                "primary": "ds_IYgxLrWv",
+                                "fieldsummary": "ds_kNVB6FEt"
+                        },
+                        "title": "MISP Search"
+                },
+                "viz_omxTxBVO": {
+                        "type": "splunk.table",
+                        "options": {
+                                "count": 20,
+                                "dataOverlayMode": "none",
+                                "drilldown": "none",
+                                "showRowNumbers": false,
+                                "showInternalFields": false
+                        },
+                        "dataSources": {
+                                "primary": "ds_UoMnhEt7"
+                        },
+                        "title": "Index Search"
+                }
+        },
+        "inputs": {
+                "input_a8uSmv9X": {
+                        "options": {
+                                "defaultValue": "",
+                                "token": "text_indicator"
+                        },
+                        "title": "Indicator",
+                        "type": "input.text"
+                },
+                "input_GNmZNhuU": {
+                        "options": {
+                                "items": ">frame(label, value) | prepend(formattedStatics) | objects()",
+                                "token": "dd_misp_instance",
+                                "selectFirstSearchResult": true
+                        },
+                        "title": "Dropdown Input Title",
+                        "type": "input.dropdown",
+                        "dataSources": {
+                                "primary": "ds_TRmOksRs"
+                        },
+                        "context": {
+                                "formattedConfig": {
+                                        "number": {
+                                                "prefix": ""
+                                        }
+                                },
+                                "formattedStatics": ">statics | formatByType(formattedConfig)",
+                                "statics": [],
+                                "label": ">primary | seriesByName(\"title\") | renameSeries(\"label\") | formatByType(formattedConfig)",
+                                "value": ">primary | seriesByName(\"title\") | renameSeries(\"value\") | formatByType(formattedConfig)"
+                        }
+                }
+        },
+        "layout": {
+                "type": "grid",
+                "options": {
+                        "width": 1440,
+                        "height": 960,
+                        "submitButton": true
+                },
+                "structure": [
+                        {
+                                "item": "viz_cqouBrEw",
+                                "type": "block",
+                                "position": {
+                                        "x": 0,
+                                        "y": 0,
+                                        "w": 736,
+                                        "h": 611
+                                }
+                        },
+                        {
+                                "item": "viz_omxTxBVO",
+                                "type": "block",
+                                "position": {
+                                        "x": 736,
+                                        "y": 0,
+                                        "w": 704,
+                                        "h": 611
+                                }
+                        }
+                ],
+                "globalInputs": [
+                        "input_a8uSmv9X",
+                        "input_GNmZNhuU"
+                ]
+        },
+        "title": "MISP Indicator Search",
+        "description": "You can use this dashboard to search for indicators",
+        "defaults": {
+                "dataSources": {
+                        "ds.search": {
+                                "options": {
+                                        "queryParameters": {
+                                                "latest": "$global_time.latest$",
+                                                "earliest": "$global_time.earliest$"
+                                        }
+                                }
+                        }
+                }
+        }
+}
+    ]]></definition>
+    <meta type="hiddenElements"><![CDATA[
+{
+        "hideEdit": false,
+        "hideOpenInSearch": false,
+        "hideExport": false
+}
+    ]]></meta>
+</dashboard>

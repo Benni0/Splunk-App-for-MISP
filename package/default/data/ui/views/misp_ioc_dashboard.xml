@@ -1,0 +1,302 @@
+
+<dashboard version="2" theme="dark">
+    <label>MISP Dashboard</label>
+    <description>MISP Statistics</description>
+    <definition><![CDATA[
+{
+        "dataSources": {
+                "ds_EhjOaqzs": {
+                        "type": "ds.search",
+                        "options": {
+                                "query": "| inputlookup MISP_TI_URL_IOCs | stats count",
+                                "queryParameters": {
+                                        "earliest": "-24h@h",
+                                        "latest": "now"
+                                }
+                        },
+                        "name": "URL IOCs search"
+                },
+                "ds_Pa9YNiy4": {
+                        "type": "ds.search",
+                        "options": {
+                                "query": "| inputlookup MISP_TI_IP_IOCs | stats count",
+                                "queryParameters": {
+                                        "earliest": "-24h@h",
+                                        "latest": "now"
+                                }
+                        },
+                        "name": "IP IOCs search"
+                },
+                "ds_D5BJtKHK": {
+                        "type": "ds.search",
+                        "options": {
+                                "query": "| inputlookup MISP_TI_Email_IOCs | stats count",
+                                "queryParameters": {
+                                        "earliest": "-24h@h",
+                                        "latest": "now"
+                                }
+                        },
+                        "name": "Email IOCs search"
+                },
+                "ds_KiSzMIGn": {
+                        "type": "ds.search",
+                        "options": {
+                                "query": "| inputlookup MISP_TI_Domain_IOCs | stats count",
+                                "queryParameters": {
+                                        "earliest": "-24h@h",
+                                        "latest": "now"
+                                }
+                        },
+                        "name": "Single value search"
+                },
+                "ds_H7ozdX40": {
+                        "type": "ds.search",
+                        "options": {
+                                "query": "| inputlookup MISP_TI_HASH_IOCs | stats count",
+                                "queryParameters": {
+                                        "earliest": "-24h@h",
+                                        "latest": "now"
+                                }
+                        },
+                        "name": "Single value search"
+                },
+                "ds_v5u1m2PT": {
+                        "type": "ds.search",
+                        "options": {
+                                "query": "| inputlookup MISP_TI_Email_IOCs | stats count",
+                                "queryParameters": {
+                                        "earliest": "-24h@h",
+                                        "latest": "now"
+                                }
+                        },
+                        "name": "Table search"
+                },
+                "ds_sqoNFAWU": {
+                        "type": "ds.search",
+                        "options": {
+                                "query": "| inputlookup MISP_TI_Domain_IOCs | stats count",
+                                "queryParameters": {
+                                        "earliest": "-24h@h",
+                                        "latest": "now"
+                                }
+                        },
+                        "name": "IOC Domains search"
+                },
+                "ds_DJ7miKEG": {
+                        "type": "ds.search",
+                        "options": {
+                                "query": "index=ioc sourcetype=misp:ti:attributes | timechart distinct_count(misp_value) by misp_type",
+                                "queryParameters": {
+                                        "earliest": "-24h@h",
+                                        "latest": "now"
+                                }
+                        },
+                        "name": "Indicator Types - Line chart search"
+                }
+        },
+        "visualizations": {
+                "viz_ovij4kZR": {
+                        "type": "splunk.singlevalue",
+                        "options": {
+                                "numberPrecision": 0,
+                                "sparklineDisplay": "below",
+                                "trendDisplay": "absolute",
+                                "unitPosition": "after",
+                                "shouldUseThousandSeparators": true
+                        },
+                        "dataSources": {
+                                "primary": "ds_EhjOaqzs"
+                        },
+                        "title": "URL IOCs"
+                },
+                "viz_BLhuzvdS": {
+                        "type": "splunk.singlevalue",
+                        "options": {
+                                "numberPrecision": 0,
+                                "sparklineDisplay": "below",
+                                "trendDisplay": "absolute",
+                                "unitPosition": "after",
+                                "shouldUseThousandSeparators": true
+                        },
+                        "dataSources": {
+                                "primary": "ds_Pa9YNiy4"
+                        },
+                        "title": "IP IOCs"
+                },
+                "viz_f3VZWKPy": {
+                        "type": "splunk.singlevalue",
+                        "options": {
+                                "numberPrecision": 0,
+                                "sparklineDisplay": "below",
+                                "trendDisplay": "absolute",
+                                "unitPosition": "after",
+                                "shouldUseThousandSeparators": true
+                        },
+                        "dataSources": {
+                                "primary": "ds_D5BJtKHK"
+                        },
+                        "title": "Email IOCs"
+                },
+                "viz_gBgI2nf7": {
+                        "type": "splunk.singlevalue",
+                        "options": {
+                                "numberPrecision": 0,
+                                "sparklineDisplay": "below",
+                                "trendDisplay": "absolute",
+                                "unitPosition": "after",
+                                "shouldUseThousandSeparators": true
+                        },
+                        "dataSources": {
+                                "primary": "ds_KiSzMIGn"
+                        },
+                        "title": "Domain IOCs"
+                },
+                "viz_W19Sli0c": {
+                        "type": "splunk.singlevalue",
+                        "options": {
+                                "numberPrecision": 0,
+                                "sparklineDisplay": "below",
+                                "trendDisplay": "absolute",
+                                "unitPosition": "after",
+                                "shouldUseThousandSeparators": true
+                        },
+                        "dataSources": {
+                                "primary": "ds_H7ozdX40"
+                        },
+                        "title": "HASH IOCs"
+                },
+                "viz_vYy00KfA": {
+                        "type": "splunk.line",
+                        "options": {
+                                "yAxisAbbreviation": "auto",
+                                "y2AxisAbbreviation": "auto",
+                                "showRoundedY2AxisLabels": false,
+                                "legendTruncation": "ellipsisMiddle",
+                                "showY2MajorGridLines": true,
+                                "xAxisLabelRotation": 0,
+                                "xAxisTitleVisibility": "hide",
+                                "yAxisTitleVisibility": "show",
+                                "y2AxisTitleVisibility": "show",
+                                "yAxisScale": "linear",
+                                "showOverlayY2Axis": false,
+                                "y2AxisScale": "inherit",
+                                "nullValueDisplay": "gaps",
+                                "dataValuesDisplay": "off",
+                                "showSplitSeries": false,
+                                "showIndependentYRanges": false,
+                                "legendMode": "standard",
+                                "legendDisplay": "right",
+                                "lineWidth": 2
+                        },
+                        "dataSources": {
+                                "primary": "ds_DJ7miKEG"
+                        },
+                        "title": "Indicator Types"
+                }
+        },
+        "inputs": {
+                "input_global_trp": {
+                        "type": "input.timerange",
+                        "options": {
+                                "token": "global_time",
+                                "defaultValue": "-24h@h,now"
+                        },
+                        "title": "Global Time Range"
+                }
+        },
+        "layout": {
+                "type": "grid",
+                "options": {
+                        "width": 1440,
+                        "height": 960
+                },
+                "structure": [
+                        {
+                                "item": "viz_vYy00KfA",
+                                "type": "block",
+                                "position": {
+                                        "x": 0,
+                                        "y": 0,
+                                        "w": 1440,
+                                        "h": 250
+                                }
+                        },
+                        {
+                                "item": "viz_W19Sli0c",
+                                "type": "block",
+                                "position": {
+                                        "x": 0,
+                                        "y": 250,
+                                        "w": 359,
+                                        "h": 300
+                                }
+                        },
+                        {
+                                "item": "viz_ovij4kZR",
+                                "type": "block",
+                                "position": {
+                                        "x": 359,
+                                        "y": 250,
+                                        "w": 354,
+                                        "h": 300
+                                }
+                        },
+                        {
+                                "item": "viz_gBgI2nf7",
+                                "type": "block",
+                                "position": {
+                                        "x": 713,
+                                        "y": 250,
+                                        "w": 366,
+                                        "h": 300
+                                }
+                        },
+                        {
+                                "item": "viz_BLhuzvdS",
+                                "type": "block",
+                                "position": {
+                                        "x": 1079,
+                                        "y": 400,
+                                        "w": 361,
+                                        "h": 150
+                                }
+                        },
+                        {
+                                "item": "viz_f3VZWKPy",
+                                "type": "block",
+                                "position": {
+                                        "x": 1079,
+                                        "y": 250,
+                                        "w": 361,
+                                        "h": 150
+                                }
+                        }
+                ],
+                "globalInputs": [
+                        "input_global_trp"
+                ]
+        },
+        "title": "MISP Dashboard",
+        "description": "MISP Statistics",
+        "defaults": {
+                "dataSources": {
+                        "ds.search": {
+                                "options": {
+                                        "queryParameters": {
+                                                "latest": "$global_time.latest$",
+                                                "earliest": "$global_time.earliest$"
+                                        }
+                                }
+                        }
+                }
+        }
+}
+    ]]></definition>
+    <meta type="hiddenElements"><![CDATA[
+{
+        "hideEdit": false,
+        "hideOpenInSearch": false,
+        "hideExport": false
+}
+    ]]></meta>
+</dashboard>
