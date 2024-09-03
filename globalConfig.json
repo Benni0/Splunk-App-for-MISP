@@ -76,7 +76,7 @@
                             "type": "checkbox",
                             "label": "TLS Verify",
                             "field": "tls_verify",
-                            "help": "Verifiy if TLS certificate is valid.",
+                            "help": "Verify if TLS certificate is valid.",
                             "required": false,
                             "defaultValue": true
                         },
@@ -440,7 +440,7 @@
                             "field": "normalize_field_names",
                             "label": "Normalize Field Names",
                             "type": "checkbox",
-                            "help": "Normalize attribute field names, each field name will begin with \"misp_*\" and the datastructure will be flatteneds.",
+                            "help": "Normalize attribute field names, each field name will begin with \"misp_*\" and the data structure will be flattened.",
                             "required": false,
                             "defaultValue": true
                         },
@@ -448,7 +448,7 @@
                             "field": "normalized_field_prefix",
                             "label": "Prefix for normalized fields",
                             "type": "text",
-                            "help": "Defines the prefix for normaized fields, which is \"misp_\" by default.",
+                            "help": "Defines the prefix for normalized fields, which is \"misp_\" by default.",
                             "validators": [
                                 {
                                     "type": "regex",
@@ -565,7 +565,7 @@
                                     "maxLength": 80
                                 }
                             ],
-                            "defaultValue": "default",
+                            "defaultValue": "ioc",
                             "options": {
                                 "endpointUrl": "data/indexes",
                                 "denyList": "^_.*$",
@@ -663,7 +663,7 @@
                             "field": "normalized_field_prefix",
                             "label": "Prefix for normalized fields",
                             "type": "text",
-                            "help": "Defines the prefix for normaized fields, which is \"misp_\" by default.s",
+                            "help": "Defines the prefix for normaized fields, which is \"misp_\" by default.",
                             "validators": [
                                 {
                                     "type": "regex",
@@ -747,7 +747,7 @@
         {
             "name": "add_sighting",
             "label": "Add Sighting",
-            "description": "Add sightting to MISP Attribute",
+            "description": "Add sighting to MISP Attribute",
             "adaptiveResponse": {
                 "task": [
                     "Create"
@@ -818,7 +818,7 @@
     "meta": {
         "name": "TA_misp",
         "restRoot": "TA_misp",
-        "version": "1.0.2R484c416",
+        "version": "1.0.0",
         "displayName": "Benni0 App for MISP",
         "schemaVersion": "0.0.8",
         "_uccVersion": "5.49.0"

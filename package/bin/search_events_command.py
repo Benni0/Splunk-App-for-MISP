@@ -27,8 +27,8 @@ class SearchMISPEventsCommand(GeneratingCommand):
     | mispsearchevents (misp_instance=<str>)? (ioc=<str>)?
 
     ##Description
-    Searchs for all MISP events which include the given ioc value. 
-    You may specify the misp instance with "misp_instance" parameter, otherwiese the configured default_instance is used.
+    Searches for all MISP events which include the given ioc value. 
+    You may specify the misp instance with "misp_instance" parameter, otherwise the configured default_instance is used.
     """
 
     misp_instance = Option(

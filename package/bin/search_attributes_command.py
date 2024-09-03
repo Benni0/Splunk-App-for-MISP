@@ -36,7 +36,7 @@ class SearchMISPAttributesCommand(GeneratingCommand):
         doc='''
         **Syntax:** **misp_instance=InstanceName*
         **Description:** Name of the Instance
-        default_instance is usef if parameter is not provided
+        default_instance is used if parameter is not provided
         ''',
         require=False,
         default=None

@@ -109,6 +109,7 @@ def ingest_attributes(
             # if MISP support X-Skipped-Elements-Count this is the exact abort condition
             if len(attributes) + int(result['headers']['X-Skipped-Elements-Count']) < request_limit:
                 break
+            x_result_count = 0
         elif 'X-Result-Count' in result['headers']:
             x_result_count = int(result['headers']['X-Result-Count'])
         elif 'x-result-count' in result['headers']:

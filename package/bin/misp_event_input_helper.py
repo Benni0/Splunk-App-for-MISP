@@ -164,11 +164,11 @@ def stream_events(inputs: smi.InputDefinition, event_writer: smi.EventWriter):
                             for tag in event['Tag']:
                                 expanded_event = event.copy()
                                 expanded_event['Tag'] = tag
-                                expanded_events.append(expanded_event)
+                                expanded_events.append({'Event': expanded_event})
                         else:
                             expanded_event = event.copy()
                             expanded_event['Tag'] = None
-                            expanded_events.append(expanded_event)
+                            expanded_events.append({'Event': expanded_event})
                     events = expanded_events
 
                 event_ingestor.ingest_items(
