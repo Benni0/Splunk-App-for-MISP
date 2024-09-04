@@ -1,4 +1,4 @@
-# TA_misp
+# Benni0 App for MISP (TA_misp)
 The main purpose of this Splunk App is the import of attributes/IOCs from MISP into a Splunk index.
 In order to use these IOCs for detection either as lookup or in Splunk Enterprise Security, the App provides some reports to generate IOC lookup-tables.
 These lookup-tables are compatible with the Threat Intelligence Framework of Splunk Enterprise Security.
@@ -24,8 +24,8 @@ At least one instance must be configured.
 In **App Settings -> MISP App Settings** a default instance can be set (maybe a browser refresh is necessary if the instance is recently configured). This instance is used per default for all custom commands and for the alert action if no instance is specified.
 
 ## Importing IOCs into Splunk
-The App provides two modular inputs for importing MISP attributes/IOCs an MISP events.
-Both inputs are supporting pulling the MISP data by batches, which should avoid HTTP request limits or memory limits.
+The App provides two modular inputs for importing MISP attributes/IOCs and MISP events.
+Both inputs are support pulling the MISP data in batches, which should avoid HTTP request limits or memory limits.
 Additional these inputs uses checkpoints, so the import process starts where the last execution has stopped.
 To restart the input from the beginning, you have to manually clean the checkpoint using `splunk clean inputdata <input_name>` as documented here: [Set-up-checkpointing](https://dev.splunk.com/enterprise/docs/developapps/manageknowledge/custominputs/modinputsscript/#Set-up-checkpointing).
 The inputs can be configured in the App UI under **App Settings -> Inputs**.
@@ -100,11 +100,13 @@ Search for MISP attributes on a MISP instance using the MISP API.
 Queries a list of MISP attributes and provides filter and data normaization features. It is possible to filter tags, events, values, timestamps, to_ids etc. and to normalize the output using normalize_fields (enabled by default).
 
 #### Syntax
-
+which makes app maintenance much easier.
 ```spl
 | mispsearchattributes (misp_instance=<string>)? (limit=<int>)? (normalize_fields=(t|f))? (publish_date=<YYYY-MM-DD>)?
 | mispsearchattributes (published=(t|f))? (include_context=(t|f))? (value=<string>)?
 ```
+
+For all supported parameters see [search_attributes_command.py](package/bin/search_attributes_command.py)
 
 ### Search Events
 
@@ -119,14 +121,26 @@ You may specify the misp instance with "misp_instance" parameter, otherwise the 
 | mispsearchevents (misp_instance=<str>)? (ioc=<str>)?
 ```
 
-
+For all supported parameters see [search_events_command.py](package/bin/search_events_command.py)
 
 ## Alerts
 
 ### Add Sighting
 
-Adds a sighting to MISP Attribute by its value
+Adds a sighting to MISP Attribute by its value.
+
+## Build
+The app is developed using the [Splunk Add-On UCC Framework](https://splunk.github.io/addonfactory-ucc-generator/). To build it the following commands can be used:
+```bash
+pip install splunk-add-on-ucc-framework splunk-packaging-toolkit
+ucc-gen build
+slim package output/TA_misp
+```
 
 ## Thanks to CIRCL
 
 Many thanks to CIRCL for maintaining MISP, providing it for free, merge most of my pull requests and for the permission to use their logo for this app. 
+
+## Thanks to Splunk
+
+Many thanks to Splunk for developing the [Splunk Add-On UCC Framework](https://splunk.github.io/addonfactory-ucc-generator/), which makes app maintenance much easier.
