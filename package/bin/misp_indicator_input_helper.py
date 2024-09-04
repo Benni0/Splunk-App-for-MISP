@@ -1,7 +1,6 @@
 import json
 import logging
 
-import import_declare_test
 from solnlib import conf_manager, log
 from splunklib import modularinput as smi
 
