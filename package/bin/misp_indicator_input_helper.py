@@ -27,13 +27,18 @@ def validate_input(definition: smi.ValidationDefinition):
     misp_instance = definition.parameters.get('misp_instance')
     account = splunk_generic.get_account(session_key, misp_instance)
     misp_url = account.get('misp_url', None)
+    ignore_proxy = get_bool_val(account.get('ignore_proxy', "0"))
+
     if not misp_url:
         raise Exception(f"MISP Url for account {misp_instance} not found")
+
+    if ignore_proxy:
+        proxies = None
 
     misp_client = MISPHTTPClient(
         misp_url,
         account['auth_key'],
-        False,
+        get_bool_val(account['tls_verify']),
         proxies
     )
     result = misp_client.get_attributes(
@@ -185,7 +190,7 @@ def stream_events(inputs: smi.InputDefinition, event_writer: smi.EventWriter):
                 earliest_timestamp = datetime.now() - timedelta(days=input_duration_days)
                 earliest_timestamp = int(earliest_timestamp.timestamp())
 
-            # initialize MISP CLient
+            # initialize MISP Client
             misp_client = MISPHTTPClient(
                 misp_url,
                 account['auth_key'],
