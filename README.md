@@ -74,6 +74,7 @@ The MISP Indicator Input imports MISP indicators. The Indicators are imported re
 | Override Timestamps                 | Force to use ingest time instead of attribute timestamp.     |
 | Normalize Field Names               | Normalize attribute field names, each field name will begin with "misp_*" and the data structure will be flattened. |
 | Prefix for normalized fields        | Defines the prefix for normalized fields, which is "misp_" by default. |
+| Expand Tags                         | Expand each attributes tag to a single event to avoid mvexpand. |
 
 > [!NOTE]
 >
@@ -86,6 +87,12 @@ The MISP Indicator Input imports MISP indicators. The Indicators are imported re
 To have an up to date IOC list, it is possible to setup the indicator input using a small import interval, like 5 minutes (300 seconds). Then schedule the provided reports also by frequent schedule, maybe 10 minutes. This will keep your IOC lookup-tables up 2 date.
 
 By default the provided reports use a linear decaying score starting by 100 and decaying over 180 days (100 for hashes). This calculation can be modified direct in the report or also in the misp_decaying_scores.csv lookup-table for specific tags or organisations. It is also possible to set a static value. Due to this implementation the weight is calculated each time when the report is scheduled. IOCs where the score is zero or lower, are ignored.
+
+> [!IMPORTANT]
+>
+> To perform efficient weight calculation based on specific tags, the tag field in Splunk must not be a multi value field. This means **Expand Tags** must be activated, which will create an event for each tag. This will result in a significant increase of Splunk events, but it is necessary to avoid mvexpand which has a limit of events.
+
+
 
 ### False Positives and Critical IOCs
 
