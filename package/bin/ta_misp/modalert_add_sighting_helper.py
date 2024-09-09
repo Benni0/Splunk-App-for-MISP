@@ -1,7 +1,10 @@
 # encoding = utf-8
 
-from pymisp import PyMISP
+import import_declare_test
+
 import splunk_generic
+from splunk_generic import get_bool_val
+from misp_client import MISPHTTPClient
 
 def process_event(helper, *args, **kwargs):
 
@@ -23,13 +26,13 @@ def process_event(helper, *args, **kwargs):
     
     account = splunk_generic.get_account(session_key, misp_instance)
     # MISP Client
-    misp_client = PyMISP(
+    misp_client = MISPHTTPClient(
         account.get('misp_url', None),
         account.get('auth_key'),
-        False, # should be a parameter for ssl checking
-        proxies=proxies
+        get_bool_val(account.get('tls_verify')),
+        proxies
     )
 
-    misp_client.add_sighting({'value': ioc, 'type': int(sighting_type)})
+    misp_client.add_sighting(ioc, int(sighting_type))
 
     return 0

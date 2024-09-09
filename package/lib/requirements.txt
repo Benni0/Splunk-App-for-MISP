@@ -1,4 +1,3 @@
 splunktaucclib
 splunk-sdk
 solnlib
-pymisp<=2.4.176

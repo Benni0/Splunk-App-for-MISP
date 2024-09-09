@@ -49,6 +49,22 @@ class MISPHTTPClient:
             endpoint='/servers/getPyMISPVersion.json'
         )
 
+    def add_sighting(self, value, sighting_type: int):
+        request_body = {
+            "value": value,
+            "type": sighting_type
+        }
+        result = self._perform_request(
+            method='post',
+            endpoint='sightings/add',
+            data=json.dumps(request_body)
+        )
+        if 'Sighting' in result:
+            return result['Sighting']
+        else:
+            raise Exception(result)
+
+
     def get_events(self, limit, page, published=True, metadata=True, order="publish_timestamp", timestamp=None, publish_timestamp=None, include_context=False, event_id=None, value=None):
         request_body = {
             "page": page,
