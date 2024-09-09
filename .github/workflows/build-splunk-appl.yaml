@@ -15,12 +15,7 @@ jobs:
           python-version: '3.8'
           cache: 'pip'
       - run: pip install splunk-add-on-ucc-framework splunk-packaging-toolkit
-      - run: ucc-gen build
-      - run: slim package output/TA_misp
-      - run: sudo apt-get install -y jq
-      - name: version
-        run: cat package/app.manifest | jq '.info.id.version'
-        id: version
+      - run: bash build.sh
 
       - name: release
         uses: ncipollo/release-action@v1
