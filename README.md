@@ -138,7 +138,25 @@ For all supported parameters see [search_events_command.py](package/bin/search_e
 
 Adds a sighting to MISP Attribute by its value.
 
+## Lookups / Weight calculation
+
+The App provides reports for lookuptable generation by category:
+
+- MISP_TI_Domain_IOCs -> MISP_TI_Domain_IOCs.csv
+- MISP_TI_URL_IOCs -> MISP_TI_URL_IOCs.csv
+- MISP_TI_Email_IOCs -> MISP_TI_Email_IOCs.csv
+- MISP_TI_HASH_IOCs -> MISP_TI_HASH_IOCs.csv
+- MISP_TI_IP_IOCs -> MISP_TI_IP_IOCs.csv
+
+These reports generates lookuptables which have the required fields for the [Splunk Threat Intelligence Framework](https://docs.splunk.com/Documentation/ES/7.3.2/Admin/Supportedthreatinteltypes). The weight is calculated using a linear decaying function $100 * 1-\tfrac{age(days)}{DecayLifetime(days)}^\tfrac{1}{DecaySpeed(default:1)}$ , which is linear decreasing over the lifetime. If the decaying behavior should be changed, the reports must be changed. The weight can also be affected by the `misp_decaying_scores.csv` lookuptable. In this table it is possible to specify static weights or decaying configurations (dynamic) for tags (`Expand Tags` must be enabled in input) or creator organizations (id). Type 'static' uses the weight column and type 'dynamic' calculates a score based on DecayLifetime and DecaySpeed.
+
+For more information about the Splunk Enterprise Threat Intelligence Framework see:
+
+- [Using threat intelligence in Splunk Enterprise Security](https://lantern.splunk.com/Security/UCE/Guided_Insights/Threat_intelligence/Using_threat_intelligence_in_Splunk_Enterprise_Security)
+- [Threat Intelligence framework in Splunk ES](https://dev.splunk.com/enterprise/docs/devtools/enterprisesecurity/threatintelligenceframework/)
+
 ## Build
+
 The app is developed using the [Splunk Add-On UCC Framework](https://splunk.github.io/addonfactory-ucc-generator/). To build it the following commands can be used:
 ```bash
 pip install splunk-add-on-ucc-framework splunk-packaging-toolkit
