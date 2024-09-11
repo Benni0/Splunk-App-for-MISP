@@ -3,6 +3,8 @@ The main purpose of this Splunk App is the import of attributes/IOCs from MISP i
 In order to use these IOCs for detection either as lookup or in Splunk Enterprise Security, the App provides some reports to generate IOC lookup-tables.
 These lookup-tables are compatible with the Threat Intelligence Framework of Splunk Enterprise Security.
 
+This app is also available on [Splunkbase](https://splunkbase.splunk.com/app/7536)
+
 ## Configuration
 
 Before the App can be used, the MISP instance must be configured. The configuration can be found under **App Settings -> Configuration**.
