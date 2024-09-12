@@ -164,6 +164,50 @@ ucc-gen build
 slim package output/TA_misp
 ```
 
+# Binary File Declaration
+
+There are two binary files included in the `charset_normalizer` which is a dependency of splunktaucclib:
+
+- `lib/charset_normalizer/md__mypyc.cpython-38-x86_64-linux-gnu.so`
+- `lib/charset_normalizer/md.cpython-38-x86_64-linux-gnu.so`
+
+```
+splunktaucclib==6.3.0
+├── PySocks [required: >=1.7.1,<2.0.0, installed: 1.7.1]
+├── requests [required: >=2.31.0,<3.0.0, installed: 2.32.3]
+│   ├── certifi [required: >=2017.4.17, installed: 2024.8.30]
+│   ├── charset-normalizer [required: >=2,<4, installed: 3.3.2]
+│   ├── idna [required: >=2.5,<4, installed: 3.8]
+│   └── urllib3 [required: >=1.21.1,<3, installed: 1.26.20]
+├── solnlib [required: >=5.0.0,<6.0.0, installed: 5.2.0]
+│   ├── defusedxml [required: >=0.7, installed: 0.7.1]
+│   ├── requests [required: >=2.31.0,<3.0.0, installed: 2.32.3]
+│   │   ├── certifi [required: >=2017.4.17, installed: 2024.8.30]
+│   │   ├── charset-normalizer [required: >=2,<4, installed: 3.3.2]
+│   │   ├── idna [required: >=2.5,<4, installed: 3.8]
+│   │   └── urllib3 [required: >=1.21.1,<3, installed: 1.26.20]
+│   ├── sortedcontainers [required: >=2, installed: 2.4.0]
+│   ├── splunk-sdk [required: >=1.6, installed: 2.0.2]
+│   │   └── deprecation [required: Any, installed: 2.1.0]
+│   │       └── packaging [required: Any, installed: 24.1]
+│   └── urllib3 [required: <2, installed: 1.26.20]
+├── splunk-sdk [required: >=1.6, installed: 2.0.2]
+│   └── deprecation [required: Any, installed: 2.1.0]
+│       └── packaging [required: Any, installed: 24.1]
+├── splunktalib [required: >=3.0.4,<4.0.0, installed: 3.0.5]
+│   ├── defusedxml [required: >=0,<1, installed: 0.7.1]
+│   ├── requests [required: >=2.31.0,<3.0.0, installed: 2.32.3]
+│   │   ├── certifi [required: >=2017.4.17, installed: 2024.8.30]
+│   │   ├── charset-normalizer [required: >=2,<4, installed: 3.3.2]
+│   │   ├── idna [required: >=2.5,<4, installed: 3.8]
+│   │   └── urllib3 [required: >=1.21.1,<3, installed: 1.26.20]
+│   ├── sortedcontainers [required: >=2,<3, installed: 2.4.0]
+│   └── urllib3 [required: <2, installed: 1.26.20]
+└── urllib3 [required: <2, installed: 1.26.20]
+```
+
+
+
 ## Thanks to CIRCL
 
 Many thanks to CIRCL for maintaining MISP, providing it for free, merge most of my pull requests and for the permission to use their logo for this app. 
