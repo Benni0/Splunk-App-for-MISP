@@ -55,7 +55,7 @@ def get_proxy_config(session_key):
     settings_conf_file = cfm.get_conf(f"{ADDON_NAME.lower()}_settings")
     proxy_settings = settings_conf_file.get('proxy')
 
-    if proxy_settings.get('proxy_enabled', False):
+    if get_bool_val(proxy_settings.get('proxy_enabled', False)):
         
         proxy_credentials = ""
         if proxy_settings.get('proxy_username', False) and proxy_settings.get('proxy_password', False):
