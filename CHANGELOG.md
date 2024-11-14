@@ -1,3 +1,5 @@
-# Fix Report name
-There was a leading '.csv' in the report name of MISP_TI_URL_IOCs which was removed.
-It might be necessary to re-enable the report if you enabled it in 'defaults/savedsearches.conf'.
+# Splunk Cloud Support Release
+Added documentation for required binary files, which is necessary for cloud support.
+Fixed weight calculation within provided reports - now score precedence applies as documented
+Fixed boolean evaluation to determine if proxy is enabled or not
+Fixed dupicated stanza in searchbnf.conf
