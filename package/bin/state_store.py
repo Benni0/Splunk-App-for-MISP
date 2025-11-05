@@ -1,7 +1,9 @@
 import os.path as op
 import os
-import json
 import sys
+import json
+from json import JSONDecodeError
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 from splunklib import client
 
@@ -50,10 +52,14 @@ class FileStateStore(BaseStateStore):
         fname = op.join(self.checkpoint_dir, self.key)
         if op.exists(fname):
             with open(fname) as jsonfile:
-                state = json.load(jsonfile)
-                # commented this to disable state cache for local file
-                # self._states_cache[key] = state
-                return state
+                try:
+                    state = json.load(jsonfile)
+                    # commented this to disable state cache for local file
+                    # self._states_cache[key] = state
+                    return state
+                except JSONDecodeError:
+                    return None
+
         else:
             return None
         
