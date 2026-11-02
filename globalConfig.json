@@ -472,7 +472,6 @@
                     "table": {
                         "actions": [
                             "edit",
-                            "enable",
                             "delete",
                             "clone"
                         ],
@@ -687,7 +686,6 @@
                     "table": {
                         "actions": [
                             "edit",
-                            "enable",
                             "delete",
                             "clone"
                         ],
