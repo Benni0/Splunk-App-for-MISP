@@ -813,12 +813,20 @@
             ]
         }
     ],
-    "meta": {
+     "meta": {
         "name": "TA_misp",
         "restRoot": "TA_misp",
-        "version": "1.0.4",
+        "version": "1.0.0",
         "displayName": "Benni0 App for MISP",
         "schemaVersion": "0.0.10",
+        "supportedPythonVersion": [
+            "3.9",
+            "3.10",
+            "3.11",
+            "3.12",
+            "3.13",
+            "3.14"
+        ],
         "supportedThemes": [
             "light",
             "dark"

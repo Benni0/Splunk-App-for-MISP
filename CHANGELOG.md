@@ -3,3 +3,6 @@ Added documentation for required binary files, which is necessary for cloud supp
 Fixed weight calculation within provided reports - now score precedence applies as documented
 Fixed boolean evaluation to determine if proxy is enabled or not
 Fixed dupicated stanza in searchbnf.conf
+
+## Rebuild 11/2026
+Rebuild because of missing pyhton.required config params.
